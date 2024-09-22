@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <title>Tetris</title>
+</head>
+<body>
+    <div id="ensemble-menu">
+        <div id="menu">menu</div>
+    </div>
+    <main>
+
+        <header>
+            <div id="score"></div>
+            <div id="difficulty-gameplay"></div>
+            <div id="combo"></div>
+        </header>
+
+        <div id="ensemble-gameplay">
+            <table id="game">
+                <tbody></tbody>
+            </table>
+            <div id="info">
+                <button onclick="menu(2)" id="pause">PAUSE</button>
+                <button onclick="move(0)"><i class="fas fa-redo-alt"></i></button>
+                <div>
+                    <button onclick="move(1)"><i class="fas fa-arrow-left"></i></button>
+                    <button onclick="move(2)"><i class="fas fa-arrow-right"></i></button>
+                </div>
+                <button onclick="move(3)"><i class="fas  fa-arrow-down"></i></button>
+
+                
+            </div>
+        </div>
+
+    </main>
+    <footer>réalisation : RuneCodeur</footer>
+</body>
+<script src="./public/script.js"></script>
+</html>

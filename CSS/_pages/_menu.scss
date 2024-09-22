@@ -1,0 +1,70 @@
+#ensemble-menu{
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s;
+    opacity: 0;
+    display: none;
+    #menu{
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        border: 5px white solid;
+        box-shadow: 0 0 50px  $colorBlue , inset 0 0 50px $colorBlue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 25px;
+        color: white;
+
+        .score{
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+        }
+        button{
+            margin-top: 25px;
+            width: 120px ;
+        }
+        .info{
+            text-align: center;
+            margin-top: 10px;
+            
+        }
+
+        .menu-difficulty{
+            width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 15px;
+            border-radius: 15px;
+            border: 5px white solid;
+            box-shadow: 0 0 50px  $colorViolet , inset 0 0 50px $colorViolet;
+            margin: 25px;
+            div{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                button{
+                    width: 100%;
+                    margin: 15px;
+                }
+                #difficulty-menu{
+                    font-size: 1.5rem;
+                    font-weight: bolder;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

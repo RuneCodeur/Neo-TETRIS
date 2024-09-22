@@ -1,0 +1,14 @@
+#info{
+    flex-grow: 1;
+    min-width:0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    #pause{
+        margin-bottom: 50px;
+        width: 150px;
+        height: auto;
+    }
+    
+}

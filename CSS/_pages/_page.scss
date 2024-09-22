@@ -1,0 +1,29 @@
+header{
+    width: 100%;
+    border-radius: 50px;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 20px $colorViolet, inset  0 0 20px $colorViolet;
+    color: white;
+    border: 3px white solid;
+    font-weight: bolder;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+
+    div{
+        padding: 0 10px;
+    }
+    #score{
+        flex: 3;
+    }
+    #combo{
+        width: 50px;
+    }
+
+}
+
+#ensemble-gameplay{
+    width: 100%;
+    display: flex;
+}
