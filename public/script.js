@@ -1,10 +1,10 @@
 "use strict";
 
-//canelle tazamoucht
 const TABlargeur = 7;
 const TABhauteur = 15;
 const TABdimension = 40;
 const comboLimit = 10;
+const URLscore = 'https://neo-tetris.alwaysdata.net/';
 const gameAffichage = document.getElementById('game').children[0];
 const scoreAffichage = document.getElementById('score');
 const comboAffichage = document.getElementById('combo');
@@ -22,7 +22,7 @@ const difficulty =[
     {name:"Hardcore", interval:250, color:"#1E90FF"},
     {name:"Ultra-Hardcore", interval:200, color:"#9370DB"},
     {name:"Turbo-Hardcore", interval:150, color:"#FFD700"},
-    {name:"Cauchemard", interval:100, color:"#FF6347"},
+    {name:"Cauchemar", interval:100, color:"#FF6347"},
     {name:"Préfecture Française", interval:50, color:"#FF4500"}
 ];
 
@@ -38,6 +38,21 @@ var colorPiece = '';
 var typePiece = '';
 var PosiTetros = {};
 
+async function GETscore(){
+    fetch(URLscore)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erreur de réseau.');
+      }
+      return response.json();
+    })
+    .then(data => {
+        afficheScore(data);
+    })
+    .catch(error => {
+      console.error('Erreur:', error);
+    });
+}
 
 function init (){
     // recuperation de la liste complète des tetrominos
@@ -94,6 +109,44 @@ function afficheDifficulty(){
     return html;
 }
 
+function afficheEnregistreScore(){
+    let html =  '<div class="formScore">'
+    html +=         '<input type="text" id="nameScore" maxlength="10" required>'
+    html +=         '<button onclick="EnregistreScore()">VALIDER</button>'
+    html +=     '</div>'
+    return html;
+}
+
+function EnregistreScore(){
+    let name = document.getElementById('nameScore').value;
+    let formData = new FormData();
+    formData.append('name', name);
+    formData.append('score', score);
+
+    fetch(URLscore, {
+    method: 'POST',
+    body: formData
+    })
+    .then(reponse => menu(1))
+    //.catch(erreur => console.log(`erreur: ${erreur.message}`));
+}
+
+async function afficheScore(infoScore){
+    console.log(infoScore);
+    let html = '';
+    for (let i = 0; i < 10; i++) {
+        let name = '-';
+        let score = '0';
+        if(infoScore[i]){
+            name = infoScore[i]['name'];
+            score = infoScore[i]['score'];
+        }
+        html += '<li><p class="num">'+(i+1)+'</p><p class="name">'+ name +'</p><p class="score"> '+ score +'</p></li>'
+    }
+
+    document.getElementById('tableau-score').innerHTML = html;
+}
+
 function diffDown(){
     if(difficultySelect > 0){
         difficultySelect --;
@@ -117,7 +170,7 @@ async function menu(etat = 0){
 
         //menu principal
         case 1:
-            Menu.innerHTML = "<h1>TETRIS</h1>"+afficheDifficulty()+"<button onclick='menu(4)'>START</button> <p class='info'> Info : vous pouvez jouer avec les flèches du clavier</p>"
+            Menu.innerHTML = "<h1>TETRIS</h1>"+afficheDifficulty()+"<button onclick='menu(4)'>START</button> <button onclick='menu(5)'>TABLEAU DES SCORES</button> <p class='info'> Info : vous pouvez jouer avec les flèches du clavier</p>"
             ensembleMenu.style.display='flex';
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
@@ -137,7 +190,7 @@ async function menu(etat = 0){
         // game over
         case 3:
             stopCycle();
-            Menu.innerHTML = "<h1>GAME OVER</h1> <p class='score'>SCORE : <b>"+ score +"</b> </p> "+afficheDifficulty()+"<button onclick='menu(4)'>RETRY</button>";
+            Menu.innerHTML = "<h1>GAME OVER</h1> <p class='score'>SCORE : <b>"+ score +"</b> </p> "+afficheEnregistreScore()+"<button onclick='menu(1)'>PLAY</button>";
             ensembleMenu.style.display='flex';
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
@@ -158,6 +211,21 @@ async function menu(etat = 0){
             cycle();
             break;
     
+        // tableau des score
+        case 5:
+            let html = '';
+            for (let i = 0; i < 10; i++) {
+                html += '<li><p class="num">'+(i+1)+'</p><p class="name">-</p><p class="score">0</p></li>'
+            }
+            Menu.innerHTML = "<h1>SCORE</h1> <ul id='tableau-score'>"+html+"</ul> <button onclick='menu(1)'>RETOUR</button>";
+            ensembleMenu.style.display='flex';
+            setTimeout(function() { 
+                ensembleMenu.style.opacity='1';
+            }, 200)
+
+            GETscore();
+            break;
+
         // relance la partie mis en pause
         default:
             ensembleMenu.style.opacity='0';
@@ -188,7 +256,6 @@ function gameplayClavier(event){
 }
 
 function move(etat = 0){
-
     if(controlPiece){
         switch (etat) {
             case 1:
@@ -439,7 +506,6 @@ function dropPiece(){
     let randomPiece = Math.floor(Math.random()*tetrominos.length);
     let blocks = tetrominos[randomPiece].position[0];
     
-
     colorPiece = newColor();
     orientationPiece = 0;
     typePiece = randomPiece;
@@ -454,7 +520,6 @@ function dropPiece(){
         controlPiece = true;
         showTableau();
     }
-
 }
 
 function cycle(){
