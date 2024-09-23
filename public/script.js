@@ -26,6 +26,16 @@ const difficulty =[
     {name:"Préfecture Française", interval:50, color:"#FF4500"}
 ];
 
+var Control = {
+    left:'ArrowLeft',
+    right:'ArrowRight',
+    down:'ArrowDown',
+    turn:'ArrowUp',
+    pause:'Escape'
+}
+
+var ecouteTouche = false
+var ecouteToucheType = '';
 var difficultySelect = 3;
 var tetrominos = {};
 var score = 0;
@@ -132,7 +142,6 @@ function EnregistreScore(){
 }
 
 async function afficheScore(infoScore){
-    console.log(infoScore);
     let html = '';
     for (let i = 0; i < 10; i++) {
         let name = '-';
@@ -170,7 +179,7 @@ async function menu(etat = 0){
 
         //menu principal
         case 1:
-            Menu.innerHTML = "<h1>TETRIS</h1>"+afficheDifficulty()+"<button onclick='menu(4)'>START</button> <button onclick='menu(5)'>TABLEAU DES SCORES</button> <p class='info'> Info : vous pouvez jouer avec les flèches du clavier</p>"
+            Menu.innerHTML = "<h1>TETRIS</h1>"+afficheDifficulty()+"<button onclick='menu(4)'>START</button> <br><button onclick='menu(5)'>TABLEAU DES SCORES</button> <button onclick='menu(6)'>OPTIONS</button>"
             ensembleMenu.style.display='flex';
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
@@ -180,7 +189,7 @@ async function menu(etat = 0){
         // pause
         case 2:
             stopCycle();
-            Menu.innerHTML = "<h1>PAUSE</h1><button onclick='menu()'>PLAY</button> <button onclick='menu(1)'>RETRY</button>"
+            Menu.innerHTML = "<h1>PAUSE</h1><button onclick='menu()'>PLAY</button> <button onclick='menu(1)'>MENU</button>"
             ensembleMenu.style.display='flex';
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
@@ -190,7 +199,7 @@ async function menu(etat = 0){
         // game over
         case 3:
             stopCycle();
-            Menu.innerHTML = "<h1>GAME OVER</h1> <p class='score'>SCORE : <b>"+ score +"</b> </p> "+afficheEnregistreScore()+"<button onclick='menu(1)'>PLAY</button>";
+            Menu.innerHTML = "<h1>GAME OVER</h1> <p class='score'>SCORE : <b>"+ score +"</b> </p> "+afficheEnregistreScore()+"<button onclick='menu(1)'>MENU</button>";
             ensembleMenu.style.display='flex';
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
@@ -213,11 +222,11 @@ async function menu(etat = 0){
     
         // tableau des score
         case 5:
-            let html = '';
+            let htmlScore = '';
             for (let i = 0; i < 10; i++) {
-                html += '<li><p class="num">'+(i+1)+'</p><p class="name">-</p><p class="score">0</p></li>'
+                htmlScore += '<li><p class="num">'+(i+1)+'</p><p class="name">-</p><p class="score">0</p></li>'
             }
-            Menu.innerHTML = "<h1>SCORE</h1> <ul id='tableau-score'>"+html+"</ul> <button onclick='menu(1)'>RETOUR</button>";
+            Menu.innerHTML = "<h1>SCORE</h1> <ul id='tableau-score'>"+htmlScore+"</ul> <button onclick='menu(1)'>RETOUR</button>";
             ensembleMenu.style.display='flex';
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
@@ -226,6 +235,33 @@ async function menu(etat = 0){
             GETscore();
             break;
 
+        // Options
+        case 6:
+            ecouteTouche = false;
+
+            let htmlOptions = '<ul class="options">';
+            htmlOptions +='<li><button onclick="changeTouche(\'left\')">Gauche</button> <p>'+Control.left+'</p></li>'
+            htmlOptions +='<li><button onclick="changeTouche(\'right\')">Droite</button> <p>'+Control.right+'</p></li>'
+            htmlOptions +='<li><button onclick="changeTouche(\'down\')">Descendre</button> <p>'+Control.down+'</p></li>'
+            htmlOptions +='<li><button onclick="changeTouche(\'turn\')">Tourner</button> <p>'+Control.turn+'</p></li>'
+            htmlOptions +='<li><button onclick="changeTouche(\'pause\')">Pause</button> <p>'+Control.pause+'</p></li>'
+            htmlOptions +='</ul>'
+            Menu.innerHTML = "<h1>OPTIONS</h1> "+htmlOptions+" <button onclick='menu(1)'>RETOUR</button>";
+            ensembleMenu.style.display='flex';
+            setTimeout(function() { 
+                ensembleMenu.style.opacity='1';
+            }, 200)
+            break;
+
+        // réglage d'un bouton
+        case 7:
+            Menu.innerHTML = "<h1>OPTIONS</h1> <p>Appuyez sur la touche...</p> <button onclick='menu(6)'>RETOUR</button>";
+            ensembleMenu.style.display='flex';
+            setTimeout(function() { 
+                ensembleMenu.style.opacity='1';
+            }, 200)
+            break;
+            
         // relance la partie mis en pause
         default:
             ensembleMenu.style.opacity='0';
@@ -237,21 +273,37 @@ async function menu(etat = 0){
     }
 }
 
+function changeTouche(button){
+    ecouteTouche = true;
+    ecouteToucheType = button;
+    menu(7);
+
+}
+
 function gameplayClavier(event){
     let touche = event.key
-    switch (touche) {
-        case 'ArrowLeft':
-            move(1);
-            break;
-        case 'ArrowRight':
-            move(2);
-            break;
-        case 'ArrowDown':
-            move(3);
-            break;
-        case 'ArrowUp':
-            move();
-            break;
+    if(cycleId){
+        switch (touche) {
+            case Control.left:
+                move(1);
+                break;
+            case Control.right:
+                move(2);
+                break;
+            case Control.down:
+                move(3);
+                break;
+            case Control.turn:
+                move();
+                break;
+            case Control.pause:
+                menu(2);
+                break;
+        }
+    }else if(ecouteTouche){
+        Control[ecouteToucheType] = touche;
+        ecouteTouche = false;
+        menu(6)
     }
 }
 
