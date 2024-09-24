@@ -1,13 +1,46 @@
 #info{
-    flex-grow: 1;
-    min-width:0;
+    color: white;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    #pause{
-        margin-bottom: 50px;
-        width: 150px;
-        height: auto;
+    justify-content:space-between;
+    align-items: flex-start;
+    min-width: 175px;
+    padding-left: 15px;
+
+    ul{
+        list-style-type: none;
+        width: 100%;
+        li{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 15px;
+            padding: 5px 15px;
+            box-shadow: 0 0 20px $colorViolet, inset  0 0 20px $colorViolet;
+            border: 3px white solid;
+            margin: 25px 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            .text{
+                font-size: 1.5rem;
+                font-weight: bolder;
+
+            }
+            p{
+                text-align: center;
+                width: 100%;
+
+            }
+        }
+
     }
+
+    // div{
+    //     padding: 0 10px;
+    // }
+    // #score{
+    //     flex: 3;
+    // }
+    // #combo{
+    //     width: 50px;
+    // }
 }
