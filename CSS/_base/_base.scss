@@ -18,7 +18,7 @@ body, html{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - 15px);
     width: 100vw;
     overflow: hidden;
     background-image: url('./public/images/background.jpg');
@@ -61,31 +61,67 @@ footer{
     color: white;
 }
 
-@media screen and (max-height: 800px), screen and (max-width: 600px){
+@media screen and (min-height: 1200px), screen and (min-width: 765px){
+	main, #menu{
+        transform: scale(1.5);
+    }
+}
+
+@media screen and (max-height: 1200px), screen and (max-width: 765px){
+	main, #menu{
+        transform: scale(1.4);
+    }
+}
+
+@media screen and (max-height: 1150px), screen and (max-width: 705px){
+	main, #menu{
+        transform: scale(1.3);
+    }
+}
+
+@media screen and (max-height: 1050px), screen and (max-width: 650px){
+	main, #menu{
+        transform: scale(1.2);
+    }
+}
+
+@media screen and (max-height: 975px), screen and (max-width: 600px){
+	main, #menu{
+        transform: scale(1.1);
+    }
+}
+
+@media screen and (max-height: 900px), screen and (max-width: 600px){
+	main, #menu{
+        transform: scale(1);
+    }
+}
+
+@media screen and (max-height: 815px), screen and (max-width: 600px){
 	main, #menu{
         transform: scale(0.9);
     }
 }
 
-@media screen and (max-height: 730px), screen and (max-width: 460px){
+@media screen and (max-height: 740px), screen and (max-width: 460px){
 	main, #menu{
         transform: scale(0.8);
     }
 }
 
-@media screen and (max-height: 650px), screen and (max-width: 460px){
+@media screen and (max-height: 670px), screen and (max-width: 460px){
 	main, #menu{
         transform: scale(0.7);
     }
 }
 
-@media screen and (max-height: 650px), screen and (max-width: 350px){
+@media screen and (max-height: 600px), screen and (max-width: 350px){
 	main, #menu{
         transform: scale(0.6);
     }
 }
 
-@media screen and (max-height: 510px), screen and (max-width: 300px){
+@media screen and (max-height: 530px), screen and (max-width: 300px){
 	main, #menu{
         transform: scale(0.5);
     }
