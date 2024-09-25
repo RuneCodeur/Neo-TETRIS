@@ -15,7 +15,7 @@
 </head>
 <body>
     <div id="ensemble-menu">
-        <div id="menu">menu</div>
+        <div id="menu"></div>
     </div>
     <main>
 
@@ -32,21 +32,16 @@
                     <li class="ensemble-difficulty"><p id="difficulty-gameplay"></p></li>
                     <li class="ensemble-combo"><p class="text">Combo</p><p id="combo"></p></li>
                 </ul>
+                
+                <button class="button-pause" onclick="menu(2)" id="pause">PAUSE</button>
             </div>
         </div>
 
         <div class="control">
-            <div>
-                <button onclick="move(1)"><i class="fas fa-arrow-left"></i></button>
-                <button onclick="move(2)"><i class="fas fa-arrow-right"></i></button>
-            </div>
-
-            <button onclick="menu(2)" id="pause">PAUSE</button>
-
-            <div>
-                <button onclick="move(3)"><i class="fas  fa-arrow-down"></i></button>
-                <button onclick="move(0)"><i class="fas fa-redo-alt"></i></button>
-            </div>
+            <button class="button-direction" onclick="move(1)"><i class="fas fa-arrow-left"></i></button>
+            <button onclick="move(3)"><i class="fas  fa-arrow-down"></i></button>
+            <button onclick="move(0)"><i class="fas fa-redo-alt"></i></button>
+            <button class="button-direction" onclick="move(2)"><i class="fas fa-arrow-right"></i></button>
         </div>
 
     </main>

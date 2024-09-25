@@ -18,5 +18,11 @@ button{
 }
 button:active{
     transform: scale(0.9);
+}
 
+.button-pause{
+    width: 150px;
+}
+.button-direction{
+    width: 100px;
 }
