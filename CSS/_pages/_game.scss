@@ -1,67 +1,83 @@
-#game{
+#game, #next-tetro{
     
     width: auto;
     border-collapse: collapse;
     background-color: rgba(0, 0, 0, 0.4);
     td{
-        height: 30px;
-        width: 30px;
-        min-height: 30px;
-        min-width: 30px;
+        height: 40px;
+        width: 40px;
+        min-height: 40px;
+        min-width: 40px;
     }
+}
 
+#next-tetro{
+    background-color: transparent;
+    td{
+        height: 0;
+        width: 0;
+        min-height: 0;
+        min-width: 0;
+    }
     .bloc{
-        background-image: url("./public/images/tetro.svg");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+        height: 40px;
+        width: 40px;
+        min-height: 40px;
+        min-width: 40px;
     }
-    .bloc-dark{
-        background-image: url("./public/images/tetro.svg");
-    }
-    .bloc-blue{
-        background-image: url("./public/images/tetro-blue.svg");
-    }
-    .bloc-blueD{
-        background-image: url("./public/images/tetro-blueD.svg");
-    }
-    .bloc-brown{
-        background-image: url("./public/images/tetro-brown.svg");
-    }
-    .bloc-cyan{
-        background-image: url("./public/images/tetro-cyan.svg");
-    }
-    .bloc-green{
-        background-image: url("./public/images/tetro-green.svg");
-    }
-    .bloc-greenD{
-        background-image: url("./public/images/tetro-greenD.svg");
-    }
-    .bloc-grey{
-        background-image: url("./public/images/tetro-grey.svg");
-    }
-    .bloc-indigo{
-        background-image: url("./public/images/tetro-indigo.svg");
-    }
-    .bloc-orange{
-        background-image: url("./public/images/tetro-orange.svg");
-    }
-    .bloc-pink{
-        background-image: url("./public/images/tetro-pink.svg");
-    }
-    .bloc-purple{
-        background-image: url("./public/images/tetro-purple.svg");
-    }
-    .bloc-red{
-        background-image: url("./public/images/tetro-red.svg");
-    }
-    .bloc-sarcelle{
-        background-image: url("./public/images/tetro-sarcelle.svg");
-    }
-    .bloc-violet{
-        background-image: url("./public/images/tetro-violet.svg");
-    }
-    .bloc-yellow{
-        background-image: url("./public/images/tetro-yellow.svg");
-    }
+}
+
+.bloc{
+    background-image: url("./public/images/tetro.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bloc-dark{
+    background-image: url("./public/images/tetro.svg");
+}
+.bloc-blue{
+    background-image: url("./public/images/tetro-blue.svg");
+}
+.bloc-blueD{
+    background-image: url("./public/images/tetro-blueD.svg");
+}
+.bloc-brown{
+    background-image: url("./public/images/tetro-brown.svg");
+}
+.bloc-cyan{
+    background-image: url("./public/images/tetro-cyan.svg");
+}
+.bloc-green{
+    background-image: url("./public/images/tetro-green.svg");
+}
+.bloc-greenD{
+    background-image: url("./public/images/tetro-greenD.svg");
+}
+.bloc-grey{
+    background-image: url("./public/images/tetro-grey.svg");
+}
+.bloc-indigo{
+    background-image: url("./public/images/tetro-indigo.svg");
+}
+.bloc-orange{
+    background-image: url("./public/images/tetro-orange.svg");
+}
+.bloc-pink{
+    background-image: url("./public/images/tetro-pink.svg");
+}
+.bloc-purple{
+    background-image: url("./public/images/tetro-purple.svg");
+}
+.bloc-red{
+    background-image: url("./public/images/tetro-red.svg");
+}
+.bloc-sarcelle{
+    background-image: url("./public/images/tetro-sarcelle.svg");
+}
+.bloc-violet{
+    background-image: url("./public/images/tetro-violet.svg");
+}
+.bloc-yellow{
+    background-image: url("./public/images/tetro-yellow.svg");
 }

@@ -1,0 +1,12 @@
+#loader{
+    border: 3px red solid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 150;
+    *{
+        width: 15px;
+        height: 15px;
+        background-size: cover;
+    }
+}

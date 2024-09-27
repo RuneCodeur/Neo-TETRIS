@@ -6,6 +6,7 @@ const TABdimension = 40;
 const comboLimit = 10;
 const URLscore = 'https://neo-tetris.alwaysdata.net/';
 const gameAffichage = document.getElementById('game').children[0];
+const nextTetroAffichage = document.getElementById('next-tetro').children[0];
 const scoreAffichage = document.getElementById('score');
 const comboAffichage = document.getElementById('combo');
 const ensembleMenu = document.getElementById('ensemble-menu');
@@ -47,6 +48,9 @@ var orientationPiece = 0;
 var colorPiece = '';
 var typePiece = '';
 var PosiTetros = {};
+var PosiPieceNext = [];
+var colorPieceNext = '';
+var typePieceNext = '';
 
 async function GETscore(){
     fetch(URLscore)
@@ -64,7 +68,11 @@ async function GETscore(){
     });
 }
 
-function init (){
+function init(){
+    
+    //chargement des images
+    menu(8);
+
     // recuperation de la liste complète des tetrominos
     fetch('./public/tetrominos.json')
     .then(response => response.json())
@@ -74,6 +82,8 @@ function init (){
 }
 
 function showTableau(){
+
+    // tableau principal
     let tableau = "";
     for (let H = 0; H < TABhauteur; H++) {
         tableau += "<tr>"
@@ -99,10 +109,36 @@ function showTableau(){
                 colorBloc = 'bloc-' + colorBloc
             }
 
-            tableau += "<td style='width:"+TABdimension+"px; min-width:"+TABdimension+"px;height:"+TABdimension+"px; min-height:"+TABdimension+"px;' class='"+showBloc+" "+colorBloc+"' ></td>"
+            tableau += "<td class='"+showBloc+" "+colorBloc+"' ></td>"
         }
         tableau += "</tr>"
     }
+
+    //tableau pour la piece suivante
+    let nextTetro = "";
+    
+    for (let H = 0; H < 4; H++) {
+        let nextTetroTemp = "";
+        let afficheBloc = false;
+        nextTetroTemp += "<tr>";
+        for (let L = 0; L < 4; L++) {
+            let showBloc = "";
+            let colorBloc = "";
+            for (let i = 0; i < PosiPieceNext.length; i++) {
+                if(PosiPieceNext[i][0] == H && PosiPieceNext[i][1] == L){
+                    showBloc = 'bloc';
+                    colorBloc = 'bloc-' + colorPieceNext;
+                    afficheBloc = true;
+                }
+            }
+            nextTetroTemp += "<td class='"+showBloc+" "+colorBloc+"' ></td>";
+        }
+        nextTetroTemp += "</tr>";
+        if(afficheBloc){
+            nextTetro += nextTetroTemp;
+        }
+    }
+    nextTetroAffichage .innerHTML = nextTetro;
     gameAffichage.innerHTML = tableau;
     scoreAffichage.innerText = score;
     comboAffichage.innerText = combo;
@@ -122,12 +158,13 @@ function afficheDifficulty(){
 function afficheEnregistreScore(){
     let html =  '<div class="formScore">'
     html +=         '<input type="text" id="nameScore" maxlength="10" required>'
-    html +=         '<button onclick="EnregistreScore()">VALIDER</button>'
+    html +=         '<button onclick="EnregistreScore()" id="buttonEnregistreScore">VALIDER</button>'
     html +=     '</div>'
     return html;
 }
 
 function EnregistreScore(){
+    document.getElementById('buttonEnregistreScore').disabled = true;
     let name = document.getElementById('nameScore').value;
     let formData = new FormData();
     formData.append('name', name);
@@ -211,8 +248,11 @@ async function menu(etat = 0){
             score = 0;
             controlPiece = false;
             PosiPiece = [];
+            PosiPieceNext = [];
+            colorPiece = ''
+            colorPieceNext = '';
             PosiTetros = {};
-            init();
+            showTableau();
             ensembleMenu.style.opacity='0';
             setTimeout(function() { 
                 ensembleMenu.style.display='none';
@@ -260,6 +300,25 @@ async function menu(etat = 0){
             setTimeout(function() { 
                 ensembleMenu.style.opacity='1';
             }, 200)
+            break;
+
+        // chargement 
+        case 8:
+            Menu.innerHTML = "<p>Chargement <b id='loading'></b></p>";
+            ensembleMenu.style.display='flex';
+            setTimeout(function() { 
+                ensembleMenu.style.opacity='1';
+            }, 200)
+
+            let images  = [];
+            images.push('./public/images/background.webp');
+            images.push('./public/images/tetro.svg');
+            colors.forEach(color => {
+                if(color != 'dark'){
+                    images.push('./public/images/tetro-' + color + '.svg');
+                }
+            });
+            loader(images);
             break;
             
         // relance la partie mis en pause
@@ -554,23 +613,38 @@ function newColor(){
 }
 
 function dropPiece(){
-    let midRow = Math.floor(TABlargeur/2);
     let randomPiece = Math.floor(Math.random()*tetrominos.length);
     let blocks = tetrominos[randomPiece].position[0];
     
-    colorPiece = newColor();
+    colorPiece = colorPieceNext;
+    PosiPiece = PosiPieceNext;
+    typePiece = typePieceNext;
+    
+    colorPieceNext = newColor();
     orientationPiece = 0;
-    typePiece = randomPiece;
+    typePieceNext = randomPiece;
+    PosiPieceNext = [];
     
     for (let i = 0; i < blocks.length; i++) {
-        PosiPiece.push([blocks[i][0], (blocks[i][1] + midRow)]);
+        PosiPieceNext.push([blocks[i][0], (blocks[i][1] + 1)]);
     }
 
-    if( testConflict(PosiPiece)){
-        menu(3);
+    if(PosiPiece.length == 0){
+        dropPiece();
     }else{
-        controlPiece = true;
-        showTableau();
+        let midRow = Math.floor(TABlargeur/2)-1;
+        let posiPieceTemp = PosiPiece;
+        PosiPiece = [];
+        for (let i = 0; i < blocks.length; i++) {
+            PosiPiece.push([posiPieceTemp[i][0], (posiPieceTemp[i][1] + midRow)]);
+        }
+
+        if( testConflict(PosiPiece)){
+            menu(3);
+        }else{
+            controlPiece = true;
+            showTableau();
+        }
     }
 }
 
@@ -592,6 +666,28 @@ function stopCycle(){
     clearInterval(cycleId);
 }
 
+function loader(urls) {
+    let loadedImages = 0;
+    let afficheLoading = document.getElementById('loading');
+    let loader = document.getElementById('loader');
+    urls.forEach((url) => {
+        loader.insertAdjacentHTML('beforeend', '<div style="background-image: url(\''+ url +'\');\" ></div>');
+    });
+
+    const observer = new PerformanceObserver((list) => {
+        const entries = list.getEntriesByType('resource'); 
+
+        entries.forEach((entry) => {
+            loadedImages++;
+            afficheLoading.innerText = loadedImages + '/' + urls.length;
+            
+            if (loadedImages === urls.length) {
+                menu(1)
+            }
+        });
+    });
+    observer.observe({ entryTypes: ['resource'] });
+}
+
 init();
-menu(1);
 document.addEventListener('keydown', gameplayClavier);

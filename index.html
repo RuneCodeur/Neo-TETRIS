@@ -14,6 +14,8 @@
     <link rel="manifest" href="./favicon/site.webmanifest">
 </head>
 <body>
+    <div id="loader"></div>
+    
     <div id="ensemble-menu">
         <div id="menu"></div>
     </div>
@@ -31,6 +33,13 @@
                     <li class="ensemble-score"><p class="text">SCORE</p><p id="score"></p></li>
                     <li class="ensemble-difficulty"><p id="difficulty-gameplay"></p></li>
                     <li class="ensemble-combo"><p class="text">Combo</p><p id="combo"></p></li>
+                    <li class="ensemble-next-tetro">
+                        <table id="next-tetro">
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </li>
+                    
                 </ul>
                 
                 <button class="button-pause" onclick="menu(2)" id="pause">PAUSE</button>
